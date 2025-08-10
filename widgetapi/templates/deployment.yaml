@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\avtor\AppData\Local\Microsoft\WinGet\Links\kompose.exe --file docker-compose.yaml convert -c
+    kompose.version: 1.36.0 (ae2a39403)
+  labels:
+    io.kompose.service: widgetapi
+  name: widgetapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: widgetapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\avtor\AppData\Local\Microsoft\WinGet\Links\kompose.exe --file docker-compose.yaml convert -c
+        kompose.version: 1.36.0 (ae2a39403)
+      labels:
+        io.kompose.service: widgetapi
+    spec:
+      containers:
+        - args:
+            - -enable_auth
+            - -read_write_tokens=sometoken
+            - -max_upload_size=1048576
+            - -addr=0.0.0.0:8080
+            - -document_root=/widgetapi/data
+          image: mayth/simple-upload-server@sha256:b0e711dcdfe9be60ed20ef5447a20dbd42f467c7f16772c0581241f9e82ea9ec
+          name: widgetapi
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /widgetapi/data
+              name: datavol
+      restartPolicy: Always
+      volumes:
+        - name: datavol
+          persistentVolumeClaim:
+            claimName: datavol
