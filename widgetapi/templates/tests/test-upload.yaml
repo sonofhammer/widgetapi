@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: widgetapi-test-upload
   labels:
-    io.kompose.service: widgetapi
+    {{- include "widgetapi.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: ibmutils
       image: ibmcom/opencontent-common-utils:1.1.4
       command: ['/bin/sh'] 
-      args: ['-c', 'printf "Sample Data\n" | curl -XPUT -f -Ffile=@- http:/widgetapi:8080/files/myfile.txt?token=sometoken']
+      args: ['-c', 'printf "Sample Data\n" | curl -XPUT -f -Ffile=@- http://{{ include "widgetapi.fullname" . }}:{{ .Values.service.port }}/files/myfile.txt?token={{ .Values.app.read_write_tokens }}']
   restartPolicy: Never

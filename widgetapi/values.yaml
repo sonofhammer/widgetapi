@@ -7,17 +7,22 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: nginx
+  repository:  "mayth/simple-upload-server@sha256" #TODO this is a hack to get sha-based pull working, replace with actuall repository
   # This sets the pull policy for images.
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "b0e711dcdfe9be60ed20ef5447a20dbd42f467c7f16772c0581241f9e82ea9ec" #TODO this is a hack to get sha-based pull working, replace with actuall tag
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
 # This is to override the chart name.
 nameOverride: ""
 fullnameOverride: ""
+
+#This is for the app settings we will use in production
+app:
+  read_write_tokens: sometoken
+  max_upload_size: "1048576"
 
 # This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
@@ -87,13 +92,13 @@ resources: {}
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
-  httpGet:
-    path: /
-    port: http
+  # httpGet:
+  #   path: /
+  #   port: http
 readinessProbe:
-  httpGet:
-    path: /
-    port: http
+  # httpGet:
+  #   path: /
+  #   port: http
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:

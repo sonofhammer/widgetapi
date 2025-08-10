@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: widgetapi-test-download 
   labels:
-    io.kompose.service: widgetapi
+    {{- include "widgetapi.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,5 +11,5 @@ spec:
     - name: curl
       image: curlimages/curl
       command: ['curl']
-      args: ['-f','http:/widgetapi:8080/files/myfile.txt?token=sometoken']
+      args: ['-f','http://{{ include "widgetapi.fullname" . }}:{{ .Values.service.port }}/files/myfile.txt?token={{ .Values.app.read_write_tokens }}']
   restartPolicy: Never
