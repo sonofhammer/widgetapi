@@ -22,7 +22,7 @@ You will need helm installed.
 
 This Helm chart has built-in tests that test both the upload and the download functionality of the app
 
-Test the upload by running `helm test widgetapi --filter name=widgetapi-test-download --logs`
+Test the upload by running `helm test widgetapi --filter name=widgetapi-test-upload --logs`
 
 Test download by running `helm test widgetapi --filter name=widgetapi-test-download --logs`
 
@@ -41,7 +41,7 @@ You can remove the app by running `helm uninstall widgetapi`
  * Kubernetes v.1.30 is EOL as of June 28th 2025, we should look into updating our clusters to a later version
  * The template has the values.yaml file all ready for ingress, but we do need to deploy and test it in our cluster. 
  * This helm chart does not set up a namespace and will deploy to default namespace unless you pass in the appropriate flags during deployment. We need to come to a consensus on how we plan on using namespaces.
- * built-in helm testing is a bit buggy, we should explore terratest or helm-unittest as alternatives.
+ * built-in helm testing is a bit buggy, and will not run all test suites without filters, we should explore terratest or helm-unittest as alternatives.
  * We will need to design a deployment approach using our CI/CD tooling.
 
 
