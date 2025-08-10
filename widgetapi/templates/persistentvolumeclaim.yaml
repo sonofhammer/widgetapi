@@ -2,7 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    io.kompose.service: datavol
+  labels:
+    {{- include "widgetapi.labels" . | nindent 4 }}
   name: datavol
 spec:
   accessModes:
