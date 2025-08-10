@@ -1,0 +1,18 @@
+services: 
+  widgetapi: 
+    container_name: widgetapi 
+    restart: always 
+    image: mayth/simple-upload-server@sha256:b0e711dcdfe9be60ed20ef5447a20dbd42f467c7f16772c0581241f9e82ea9ec  # pretend it's widgetapi/widgetapi:v2 
+    volumes:
+    - datavol:/widgetapi/data 
+    command: 
+    # TOKEN and UPLOAD_LIMIT are set for deployments 
+    - -enable_auth 
+    - -read_write_tokens=${TOKEN:-sometoken} 
+    - -max_upload_size=${UPLOAD_LIMIT:-1048576} 
+    - -addr=0.0.0.0:8080 
+    - -document_root=/widgetapi/data 
+    ports:
+    - "8080:8080" 
+volumes: 
+  datavol: 
