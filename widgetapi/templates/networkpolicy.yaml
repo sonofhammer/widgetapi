@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "widgetapi.fullname" . }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- with .Values.podLabels }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+  ingress:
+  - {}
+  policyTypes:
+  - Ingress
+  - Egress
