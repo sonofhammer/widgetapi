@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: widgetapi-test-download 
+  labels:
+    io.kompose.service: widgetapi
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl
+      command: ['curl']
+      args: ['-f','http:/widgetapi:8080/files/myfile.txt?token=sometoken']
+  restartPolicy: Never
